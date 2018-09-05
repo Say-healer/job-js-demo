@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>无缝滚动</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				border: none;
+			}
+			.swiper_container{
+				width: 400px;
+				height: 200px;
+				overflow: hidden;
+				position: relative;
+			}
+			.swiper_wrap{
+				width: 1600px;
+				height: 100%;
+				clear: both;
+				zoom: 1;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 1;
+			}
+			.swiper_slide{
+				width: 400px;
+				height: 100%;
+				float: left;
+				line-height: 100px;
+				font-size: 30px;
+				text-align: center;
+			}
+			.leftBtn,.rightBtn{
+				width: 50px;
+				height: 50px;
+				background-color: blueviolet;
+				position: absolute;
+				top: 50%;
+				margin-top: -25px;
+				z-index: 2;
+				font-size: 30px;
+				line-height: 50px;
+				text-align: center;
+				cursor: pointer;
+			}
+			.leftBtn{
+				left: 0;
+			}
+			.rightBtn{
+				right: 0;
+			}
+			.swiper_nav{
+				width: 70px;
+				height: 10px;
+				position: absolute;
+				bottom: 10px;
+				left: 50%;
+				margin-left: -35px;
+				z-index: 100;
+			}
+			.swiper_nav span{
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				background-color: black;
+				margin-left: 10px;
+				float: left;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			.swiper_nav span:first-child{
+				margin-left: 0;
+			}
+			.swiper_nav .active{
+				background-color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="swiper_container">
+			<div class="swiper_wrap">
+				<div class="swiper_slide" index="1" style="background-color: red;">1</div>
+				<div class="swiper_slide" index="2" style="background-color: yellow;">2</div>
+				<div class="swiper_slide" index="3" style="background-color: yellowgreen;">3</div>
+				<div class="swiper_slide" index="4" style="background-color: mediumvioletred;">4</div>
+			</div>
+			<div class="leftBtn">左</div>
+			<div class="rightBtn">右</div>
+			<div class="swiper_nav">
+				<span class="active"></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+		<!-- <script src="jquery-3.0.0.min.js" type="text/javascript" charset="utf-8"></script> -->
+		<script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$('.leftBtn').on('click',moveToLeft);
+			function moveToLeft(){
+				$('.leftBtn').off('click',moveToLeft);
+				var distance=$('.swiper_container').width();
+				var firstDom=$('.swiper_wrap .swiper_slide').first();
+				var lastDom=$('.swiper_wrap .swiper_slide').last();
+				$('.swiper_wrap').animate({'left':-distance+'px'},1000,function(){
+					lastDom.after(firstDom);
+					$('.swiper_wrap').css('left','0');
+					
+					//nav的变化
+					$('.swiper_nav span').eq($('.swiper_slide').eq(0).attr('index')-1).addClass('active').siblings().removeClass('active');
+					
+					$('.leftBtn').on('click',moveToLeft);
+				});
+			}
+			$('.rightBtn').on('click',moveToRight);
+			function moveToRight(){
+				$('.rightBtn').off('click',moveToRight);
+				var distance=$('.swiper_container').width();
+				var firstDom=$('.swiper_wrap .swiper_slide').first();
+				var lastDom=$('.swiper_wrap .swiper_slide').last();
+				$('.swiper_wrap').css('left',-distance+'px');
+				firstDom.before(lastDom);
+				$('.swiper_wrap').animate({'left':'0px'},1000,function(){
+					
+					//nav的变化
+					$('.swiper_nav span').eq($('.swiper_slide').eq(0).attr('index')-1).addClass('active').siblings().removeClass('active');
+					
+					$('.rightBtn').on('click',moveToRight);
+				});
+			}
+			
+			//nav的点击事件
+			$('.swiper_nav span').on('click',function(){
+				//找到对应的slide
+				var thisIndex=$(this).index();
+				
+			});
+		</script>
+	</body>
+</html>

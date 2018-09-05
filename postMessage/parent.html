@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Message</title>
+    <style type="text/css">
+        #child{
+            border: none;
+        }
+        div {
+            border: 1px solid #dbdbdb;
+            margin: 10px;
+        }
+        #color{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="width:200px; float:left; margin-right:200px;border:solid 1px #333;">
+        <div id="color">Frame Color</div>
+        <div id="text">123</div>
+    </div>
+    <div>
+        <iframe id="child" src=" http://192.168.1.117:8089"></iframe>
+    </div>
+
+    <script type="text/javascript">
+     var color = document.getElementById("color");
+     var iframe = document.getElementById("child");
+                color.onclick = function (argument) {
+                    var obj = {
+                            rescode : true,
+                            code : [1,2,3,4,5,6,7,8]
+                        }
+
+
+                    iframe.contentWindow.postMessage(obj,'*');
+                }
+     // 事件监听
+    var addEventHandler = function (target, type, fn) {
+        if (target.addEventListener) {
+            target.addEventListener(type, fn, false);
+        } else {
+            target.attachEvent('on' + type, fn);
+        }
+    },
+    addEventHandler(window,"message",function (e) {
+        // body...
+        console.log("parent-----",e)
+            var color=e.data;
+            document.getElementById('text').innerHTML=color;
+            document.getElementById('color').style.backgroundColor=color;
+    })
+    </script>
+</body>
+</html>

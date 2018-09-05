@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>点击</title>
+	<style type="text/css">
+		div>div{
+			border: 1px solid #dbdbdb;
+			overflow: hidden;
+		}
+		#div1{
+			background: #999;
+		}
+		#div2{
+			background: #ff0;
+		}
+		#div3{
+			background: #f0f;
+		}
+		.clickButton>li{
+			display: inline-block;
+			width: 100px;
+			border: 1px solid #dbdbdb;
+			text-align: center;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+<ul class="clickButton">
+	<li>手机</li>
+	<li>路由</li>
+	<li>网络</li>
+</ul>
+<div class="child">
+	<div id="div1">
+		<ul>
+			<li>手机</li>
+			<li>手机</li>
+			<li>手机</li>
+			<li>手机</li>
+		</ul>
+	</div>
+	<div id="div2">
+		<ul>
+			<li>路由</li>
+			<li>路由</li>
+			<li>路由</li>
+			<li>路由</li>
+			<li>路由</li>
+			<li>路由</li>
+		</ul>
+	</div>
+	<div id="div3">
+		<ul>
+			<li>网络</li>
+			<li>网络</li>
+			<li>网络</li>
+			<li>网络</li>
+			<li>网络</li>
+		</ul>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="./jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+	$(".clickButton").on("click","li",function(e){
+		var index = $(this).index()
+		if(index == 0){
+		 	$('.child').prepend($("#div1"));
+		}else if(index == 1){
+			$('.child').prepend($("#div2"));
+		}else{
+			$('.child').prepend($("#div3"));
+		}
+	})
+</script>
+</html>

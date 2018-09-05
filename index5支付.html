@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>选择支付方式</title>
+		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<body>
+		<!--头部-->
+				<!--立即支付-->
+				<div class="payNow">
+					<button id="nowPay" class="gradual_change">立即支付</button>
+				</div>
+
+	</body>
+	<script>
+		var weixin =false;
+	var ua = navigator.userAgent.toLowerCase();
+		if(ua.match(/MicroMessenger/i)=="micromessenger") {
+		 weixin =true;
+ 	} else {
+		weixin =false;
+	}
+	function is_weixin(){
+	var ua = navigator.userAgent.toLowerCase();
+	if(ua.match(/MicroMessenger/i)=="micromessenger") {
+		return true;
+ 	} else {
+		return false;
+	}
+}
+	console.log(weixin)
+	$("#nowPay").click(function(){
+		console.log("11");
+		if(weixin){
+			alert("weixin");
+			$.ajax({
+            type: 'get',
+            url:"http://kingcourage.s1.natapp.cc/CTower-Arcfox-Main-Mall-App/weixinPay/weixinH5Pay",
+            async:true,
+            dataType:'json',
+            data:{
+                "token":"111111111",
+                orderno:"20170412121321812754",
+                type:"3"
+            },
+            success:function(data){
+				console.log(data);
+				alert(data)
+				location.href = data.resultObj
+ 
+            }
+        });
+
+		}else{
+			alert("NOweixin");
+			$.ajax({
+            type: 'get',
+            url:"http://test.arcfoxfun.com/main/weixinPay/weixinH5Pay",
+            async:true,
+            dataType:'json',
+            data:{
+                "token":"488d2d5b02e4a53fa52c406b6389939e",
+                orderno:"20170427195905502071",
+                type:"3"
+            },
+            success:function(data){
+				console.log(data);
+				alert(JSON.stringify(data))
+				alert(data.resultObj)
+				location.href = data.resultObj
+ 
+            }
+        });
+
+
+		}
+
+	})
+
+	
+	</script>
+</html>

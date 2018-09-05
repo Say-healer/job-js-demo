@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>脸</title>
+	<style type="text/css">
+	.box{
+		  position: relative;
+		  margin: 0 auto;
+		  width: 300px;
+		  height: 300px;
+		  border-bottom: 10px solid black;
+		  border-radius: 50%;
+		  transform: rotateZ(30deg);
+		  }
+		  .box::before, .box::after{
+		    content: ' ';
+		    position: absolute;
+		    width: 10px;
+		    height: 10px;
+		    border-radius: 50%;
+		    border: 10px solid black;	
+		    background: white;
+		    top: 30%;
+		  }
+		  .box::before{
+		    left: 20%;
+		  }
+		  .box::after{
+		    right: 20%;
+		  }
+
+	</style>
+</head>
+<body>
+<div class="box"></div>
+
+</body>
+</html>

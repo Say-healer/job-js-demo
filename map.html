@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>map</title>
+</head>
+<body>
+<script type="text/javascript">
+
+var arr =Array.from({length: 100}, (v, i) => new Object())
+var arrs = Array.from({length:100},function (v,i) {
+	return new Object()
+})
+// console.log(JSON.stringify(arrs))
+function Person() {
+    // 构造函数 Person() 定义的 `this` 就是新实例对象自己
+    this.age = 0;
+    setInterval(function growUp() {
+        // 在非严格模式下，growUp() 函数定义了其内部的 `this`为全局对象, 
+        // 不同于构造函数Person()的定义的 `this`
+        this.age++;
+    }, 3000);
+}
+Person.prototype ={
+
+ hello:function(){
+	return console.log("halou")
+},
+name:() => {
+	return console.log("name")
+}
+}
+
+var p = new Person();
+console.log(p.name())
+console.log(p)
+
+</script>
+</body>
+</html>

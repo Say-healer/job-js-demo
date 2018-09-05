@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>弹窗</title>
+</head>
+<body>
+<script type="text/javascript">
+	;(function($) {
+				var _showDialog = function(options) {
+					var config = {
+						title: '',
+						content: '',
+						className: '',
+						buttons: [{
+							label: '确定',
+							type: 'confirm',
+							callback: function() {
+								_hideDialog();
+							}
+						}]
+					};
+					var $popdialog = $('.pop-dialog');
+					if ($popdialog.length == 0) {
+						$popdialog = $(`<div class='pop-dialog'>
+											<div class='pop-dialog-wrapper'>
+												<div class='pop-dialog-header'>
+													<span class='pop-dialog-title'>{title}</span>
+												</div>
+												<div class='pop-dialog-content'>
+													{content}
+												</div>
+												<div class='pop-dialog-footer'></div>
+											</div>
+										</div>`);
+						$('body').prepend($popdialog);
+					} 
+					$.extend(config, options);
+
+					$.each(config, function(k, v) {
+						switch (k) {
+							case 'title':
+								var $popheader = $popdialog.find('.pop-dialog-header');
+								if ($.isEmptyObject(v)) {
+									$popheader.remove();
+								} else {
+									if ($popheader.length == 0) {
+										$popheader = $(`<div class='pop-dialog-header'>
+															<span class='pop-dialog-title'>{title}</span>
+														</div>`);
+										$popheader.prependTo($popdialog.find('.pop-dialog-wrapper'));
+									}
+									$popdialog.find('.pop-dialog-title').html(v);
+								}
+								break;
+							case 'content':
+								var $popcontent = $popdialog.find('.pop-dialog-content');
+								if ($.isEmptyObject(v)) {
+									$popcontent.remove();
+								} else {
+									if ($popcontent.length == 0) {
+										$popcontent = $(`<div class='pop-dialog-content'>
+															{content}
+														</div>`);
+										$popcontent.insertBefore($popdialog.find('.pop-dialog-footer'));
+									}
+									$popcontent.html(v);
+								}
+								break;
+							case 'className':
+								$popdialog.addClass(v);
+								break;
+							case 'buttons':
+								var tap = window.ontouchstart ? 'touchstart' : 'click';
+								var $popfooter = $popdialog.find('.pop-dialog-footer');
+								$popfooter.empty();
+								$.each(v, function(i, btn) {
+									$(`<a href='javascript:;' class='pop-dialog-btn'>{label}</a>`)
+									.text(btn.label)
+									.attr('data-index', i)
+									.addClass($.isEmptyObject(btn.type) ? '' : 'pop-dialog-btn_' + btn.type)
+									.off(tap)
+									.on(tap, typeof btn.callback == 'function' ? btn.callback : $.noop)
+									.appendTo($popfooter);
+								});
+								break;
+						}
+					});
+				}
+
+				var _hideDialog = function() {
+					var $popdialog = $('.pop-dialog');
+					if ($popdialog && $popdialog.hasClass('hide'))
+						return;
+					$popdialog.addClass('hide');
+				}
+
+				$.extend($, {
+					showDialog: _showDialog,
+					hideDialog: _hideDialog
+				})
+			})($);
+
+			$.showDialog({
+				title: '标题',
+				content: '测试测试测试测试测试测试测试测试测试测试测试 sssssssssssssssssssadasdasdasdasda',
+				buttons: [{
+					label: '取消',
+					type: 'cancel',
+					callback: $.hideDialog
+				}, {
+					label: '确定',
+					type: 'confirm',
+					callback: function() {
+						$.showDialog({
+							title: 'sssssssssssssssssssadasdasdasdasda',
+							content: '',
+							buttons: [{
+								label: '取消',
+								type: 'cancel',
+								callback: $.hideDialog
+							}]
+						});
+					}
+				}]
+			});
+</script>
+
+</body>
+</html>

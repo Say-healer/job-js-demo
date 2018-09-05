@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>cavase</title>
+	<style type="text/css">
+		div{
+			width: 80%;
+			overflow: hidden;
+		}
+		img{
+			width: 100%;
+			height: 600px;
+		}
+	</style>
+</head>
+<body>
+<button id="div">点击</button>
+<div>
+	
+</div>
+
+</body>
+<script type="text/javascript">
+	var url = './c02.png'
+	var img = document.createElement("img");
+	var div = document.getElementsByTagName('div')[0];
+		img.setAttribute("src",url);
+	div.appendChild(img)
+	function convertImageToCanvas(image) {
+	var canvas = document.createElement("canvas");
+	canvas.width = image.width;
+	canvas.height = image.height;
+	canvas.getContext("2d").drawImage(image, 0, 0,image.width,image.height);
+	console.log(canvas)
+	return canvas;
+}
+
+
+function convertCanvasToImage(canvas) {
+	var image = new Image();
+	image.src = canvas.toDataURL("image/png");
+	console.log(image)
+	return image;
+}
+		document.getElementById("div").onclick = function (argument) {
+			var vacas = convertImageToCanvas(img)
+			div.appendChild(convertCanvasToImage(vacas))
+		}
+
+</script>
+</html>

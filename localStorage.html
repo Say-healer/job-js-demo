@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>localStorage</title>
+</head>
+<body>
+
+<script type="text/javascript">
+let n = 20170710
+console.log(n)
+console.log(n.replace(/(\d{4})(\d{2})(\d{2})/g);  // 2017-07-10)
+//本地储存
+	const storage = {
+		set:function (n,c) {
+			localStorage.setItem(n,JSON.stringify(c));
+		},
+		get:function (n) {
+			if(localStorage.getItem(n) == null){
+				return null;
+			}else{
+				return JSON.parse(localStorage.getItem(n));
+			}
+		},
+		remove:function (n){
+			localStorage.removeItem();
+		}
+	}
+	const session = {
+		set:function (n,c) {
+			sessionStorage.setItem(n,JSON.stringify(c));
+		},
+		get:function (n) {
+			if(sessionStorage.getItem(n) == null){
+				return null;
+			}else{
+				return JSON.parse(sessionStorage.getItem(n));
+			}
+		},
+		remove:function (n){
+			sessionStorage.removeItem();
+		}
+	}
+	//ajax 封装
+	//ajax*******************************************************
+function ajax(json){    //url, data, type, timeout, success, error
+    json=json || {};
+    json.data=json.data || {};
+    json.type=json.type || 'get';
+    json.timeout=json.timeout || 0;
+
+    var arr=[];
+    for(var name in json.data){
+        arr.push(name+'='+encodeURIComponent(json.data[name]))
+    }
+    var sData=arr.join('&');
+
+    try{
+        var oAjax=new XMLHttpRequest;
+    }catch(e){
+        var oAjax=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+
+    if(json.type=='post'){
+        oAjax.open('POST',json.url,true);
+        oAjax.setRequestHeader('content-type','application/x-www-form-urlencoded');
+        oAjax.send(sData);
+    }else{
+        oAjax.open('GET',json.url+'?'+sData,true);
+        oAjax.send();
+    }
+
+    oAjax.onreadystatechange=function(){
+        if(oAjax.readyState==4){
+            clearTimeout(timer);
+            if((oAjax.status>=200 && oAjax.status<300) || oAjax.status==304){
+                json.success && json.success(oAjax.responseText);
+            }else{
+                json.error && json.error(oAjax.status);
+            }
+        }
+    };
+
+    if(json.timeout){
+        var timer=setTimeout(function(){
+            oAjax.abort();
+        },json.timeout);
+    }
+}
+//时间戳转JS时间********************************************
+function setTime(t){
+  function toDou(n){
+    return n<10?'0'+n:''+n;
+  }
+  var oDate=new Date();
+  oDate.setTime(t*1000);
+
+  return oDate.getFullYear()+'-'+(oDate.getMonth()+1)+'-'+oDate.getDate()+'  '+toDou(oDate.getHours())+':'+toDou(oDate.getMinutes())+':'+toDou(oDate.getSeconds());
+}
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>客户端</title>
+    <style type="text/css">
+    .pop-wrap{ position: absolute; z-index: 1000; bottom:50%; left: 50%; transform: translate(-50%,50%); -webkit-transform: translate(-50%,50%); background-color: rgba(0,0,0,.6); max-width: 90%; border-radius: 1em; color: #fff; line-height:1.4; /* text-overflow: ellipsis; overflow: hidden; white-space: nowrap; */ word-break: break-all;  padding: 0.5em 1em; font-size: 1.875rem;}
+
+</style>
+</head>
+<body>
+
+
+<div class="hell">随机</div>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script>  
+    //随机数
+    var generateNonceString = function(length){
+    	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    	var maxPos = chars.length;
+    	var noceStr = "";
+    	for (var i = 0; i < (length || 32); i++) {
+    		noceStr += chars.charAt(Math.floor(Math.random() * maxPos));
+    	}
+    	return noceStr;
+    };
+    //询问弹窗
+    function firm() {  
+        //利用对话框返回的值 （true 或者 false）  
+        if (confirm("你确定提交吗？")) {  
+            alert("点击了确定");  
+        }  
+        else {  
+            alert("点击了取消");  
+        }  
+  
+    } 
+    //填写内容
+    function prom() {  
+    var name = prompt("请输入您的名字", ""); //将输入的内容赋给变量 name ，  
+
+    //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值  
+    if (name)//如果返回的有内容  
+    {  
+        alert("欢迎您：" + name)  
+    }  
+    }  
+    //定时自定义弹窗
+    function popMsg(str,callback){
+    if( str && typeof(str) == "string"){
+        $("body").append("<span class='pop-wrap'>"+str+"</span>");
+        var timeId=setTimeout(function(){
+            $(".pop-wrap").animate({
+                opacity:0
+            },600,function(){
+                $(".pop-wrap").remove();
+                clearTimeout(timeId);
+                if(typeof(callback)==="function"){
+                    callback();
+                }
+            });
+        },1200)
+    }
+}
+function cell(){
+    console.log("我的")
+}
+
+
+$(".hell").click(function(){
+	// prom()
+    console.log(typeof(cell))
+    popMsg("我的小宝贝",cell)
+})
+
+var vlayer = function(){
+
+}
+vlayer.prototype.method_name = function(first_argument) {
+    // body...
+    return console.log("hell")
+};
+vlayer()
+var c = document, delay = null, flag = null;
+
+document.head.appendChild(function(){
+        var a=c.createElement("link");
+        a.href=style?style:getStyle(),a.type="text/css",a.rel="styleSheet",a.id="luckcss";return a
+    }())
+// setInterval(function(){
+// 	let fuck = generateNonceString(4)
+// 	console.log(fuck)
+// },1000)
+
+
+</script>  
+
+</body>
+</html>
